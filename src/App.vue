@@ -19,6 +19,7 @@ import TheWelcome from "./components/TheWelcome.vue";
   </header>
 
   <main>
+    Hello World from Kevin
     <TheWelcome />
   </main>
 </template>
