@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Endpoints } from "@octokit/types";
-// Keep this synced with package.json:dependencies:octokit
-import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.7-bIjDAPxq3TpWV34ifrMi/mode=imports,min/optimized/octokit.js";
-
-const GET_REPOS_URL = "GET /repos/{owner}/{repo}";
-type GetReposResponse = Endpoints[typeof GET_REPOS_URL]["response"];
+import { getRepos, type GetReposResponse } from "./services/githubService";
 
 const repoMetadata = ref<GetReposResponse | null>(null);
 
 const loadRepoMetadata = async () => {
   repoMetadata.value = null;
-  const octokit = new Octokit();
-  const res: GetReposResponse = await octokit.request(GET_REPOS_URL, {
+  const res = await getRepos({
     owner: "lrdwhyt",
     repo: "coscheduler",
   });
