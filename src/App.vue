@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { Endpoints } from "@octokit/types";
-import { Octokit } from "https://cdn.skypack.dev/octokit";
+// Keep this synced with package.json:dependencies:octokit
+import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.7-bIjDAPxq3TpWV34ifrMi/mode=imports,min/optimized/octokit.js";
 
 const GET_REPOS_URL = "GET /repos/{owner}/{repo}";
 type GetReposResponse = Endpoints[typeof GET_REPOS_URL]["response"];
