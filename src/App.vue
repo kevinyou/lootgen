@@ -29,17 +29,15 @@ onMounted(async () => {
 
     <div v-if="repoMetadata">
       <p>
-        You can access <a :href="repoMetadata.data.html_url">coscheduler's source code at GitHub</a>.
+        You can access
+        <a :href="repoMetadata.data.html_url"
+          >coscheduler's source code at GitHub</a
+        >.
       </p>
 
-      <p>
-        The owner of coscheduler is {{ repoMetadata.data.owner.login }}.
-      </p>
+      <p>The owner of coscheduler is {{ repoMetadata.data.owner.login }}.</p>
     </div>
-    <div v-else>
-      Loading...
-    </div>
-
+    <div v-else>Loading...</div>
   </main>
 </template>
 
