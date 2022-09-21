@@ -1,26 +1,38 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
+import { onMounted, ref } from "vue";
+import { getRepos, type GetReposResponse } from "./services/githubService";
+
+const repoMetadata = ref<GetReposResponse | null>(null);
+
+const loadRepoMetadata = async () => {
+  repoMetadata.value = null;
+  const res = await getRepos({
+    owner: "lrdwhyt",
+    repo: "coscheduler",
+  });
+  repoMetadata.value = res;
+};
+
+onMounted(async () => {
+  await loadRepoMetadata();
+});
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-    Hello World from Kevin
-    <TheWelcome />
+    <h1>Welcome to coschedulerscheduler.</h1>
+
+    <div v-if="repoMetadata">
+      <p>
+        You can access
+        <a :href="repoMetadata.data.html_url"
+          >coscheduler's source code at GitHub</a
+        >.
+      </p>
+
+      <p>The owner of coscheduler is {{ repoMetadata.data.owner.login }}.</p>
+    </div>
+    <div v-else>Loading...</div>
   </main>
 </template>
 
