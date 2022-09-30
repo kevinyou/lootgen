@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { getCommits, type Commits } from "../services/githubService";
+import BarChart from "../components/BarChart";
 
 const commits = ref<Commits | null>(null);
 
@@ -125,6 +126,8 @@ onMounted(async () => {
         </tr>
       </table>
     </div>
+
+    <BarChart />
   </main>
 </template>
 
