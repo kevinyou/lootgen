@@ -48,15 +48,25 @@ export default defineComponent({
       type: Array as PropType<Plugin<"bar">[]>,
       default: () => [],
     },
+    chartData: {
+      type: Array as PropType<[string, number][]>,
+      default: () => [],
+    },
+    datasetLabel: {
+      type: String,
+      default: () => "",
+    },
   },
   setup(props) {
+    const labels = props.chartData.map((pair) => pair[0]);
+    const data = props.chartData.map((pair) => pair[1]);
     const chartData = {
-      labels: ["January", "February", "March"],
+      labels,
       datasets: [
         {
-          label: "Sales per Month",
+          label: props.datasetLabel,
           backgroundColor: "rgb(0, 189, 126)",
-          data: [40, 20, 12],
+          data,
         },
       ],
     };
