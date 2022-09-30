@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getRepos, type GetReposResponse } from "./services/githubService";
+import { getRepos, type RepoMetadata } from "./services/githubService";
+import MainPageHeader from "./components/MainPageHeader.vue";
+import CommitStats from "./components/CommitStats.vue";
 
-const repoMetadata = ref<GetReposResponse | null>(null);
+const repoMetadata = ref<RepoMetadata | null>(null);
 
 const loadRepoMetadata = async () => {
   repoMetadata.value = null;
@@ -19,20 +21,23 @@ onMounted(async () => {
 </script>
 
 <template>
+  <header>
+    <div class="wrapper">
+      <MainPageHeader msg="Welcome to coschedulerscheduler." />
+    </div>
+  </header>
   <main>
-    <h1>Welcome to coschedulerscheduler.</h1>
-
     <div v-if="repoMetadata">
       <p>
         You can access
-        <a :href="repoMetadata.data.html_url"
-          >coscheduler's source code at GitHub</a
+        <a :href="repoMetadata.html_url">coscheduler's source code at GitHub</a
         >.
       </p>
 
-      <p>The owner of coscheduler is {{ repoMetadata.data.owner.login }}.</p>
+      <p>The owner of coscheduler is {{ repoMetadata.owner.login }}.</p>
     </div>
     <div v-else>Loading...</div>
+    <CommitStats />
   </main>
 </template>
 
@@ -41,20 +46,11 @@ header {
   line-height: 1.5;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
 @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
   }
 
   header .wrapper {
