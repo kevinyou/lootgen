@@ -8,6 +8,7 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
+  type Plugin,
 } from "chart.js";
 
 ChartJS.register(
