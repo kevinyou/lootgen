@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { getCommits, type Commits } from "../services/githubService";
+import BarChart from "../components/BarChart";
 
 const commits = ref<Commits | null>(null);
 
@@ -38,23 +39,14 @@ const wordFrequencies = computed(() =>
   getWordFrequencies(commitMessages.value)
 );
 
-const sortedWordFrequencies = computed(() => {
+const sortedWordFrequencies = computed<[string, number][]>(() => {
   const pairs = Object.entries(wordFrequencies.value).map(([word, freq]) => ({
     word,
     freq,
   }));
-  return pairs.sort((a, b) => a.freq - b.freq);
-});
-
-const mostFrequentWord = computed(() => {
-  return (
-    sortedWordFrequencies.value[sortedWordFrequencies.value.length - 1]?.word ||
-    ""
-  );
-});
-
-const leastFrequentWord = computed(() => {
-  return sortedWordFrequencies.value[0]?.word || "";
+  return pairs
+    .sort((a, b) => b.freq - a.freq)
+    .map(({ word, freq }) => [word, freq]);
 });
 
 const commitTimestamps = computed(() => {
@@ -75,7 +67,7 @@ const DAYS_OF_THE_WEEK = [
   "Sunday",
 ] as const;
 
-const weekdays = computed(() => {
+const weekdays = computed<[string, number][]>(() => {
   const dates = commitTimestamps.value
     .filter((x) => !!x)
     .map((value) => new Date(value as string));
@@ -103,27 +95,17 @@ onMounted(async () => {
     <div v-if="commits">
       <ul>
         <li>The repo has {{ commits.length }} commits.</li>
-        <li>
-          The most common word in descriptions is "{{ mostFrequentWord }}".
-        </li>
-        <li>
-          The least common word in descriptions is "{{ leastFrequentWord }}".
-        </li>
       </ul>
-      <table>
-        <tr>
-          <th>Day of the Week</th>
-          <th>Number of Commits</th>
-        </tr>
-        <tr v-for="[key, val] in weekdays" :key="key">
-          <td>
-            {{ key }}
-          </td>
-          <td>
-            {{ val }}
-          </td>
-        </tr>
-      </table>
+      <BarChart
+        chartId="commitsPerWeekday"
+        :chartData="weekdays"
+        datasetLabel="Number of Commits"
+      />
+      <BarChart
+        chartId="wordFrequency"
+        :chartData="sortedWordFrequencies"
+        datasetLabel="Word Frequency in Commit Messages"
+      />
     </div>
   </main>
 </template>
