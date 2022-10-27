@@ -18,10 +18,27 @@ const GET_COMMITS_URL = "GET /repos/{owner}/{repo}/commits";
 type GetCommitsParameters = Endpoints[typeof GET_COMMITS_URL]["parameters"];
 type GetCommitsResponse = Endpoints[typeof GET_COMMITS_URL]["response"];
 export type Commits = GetCommitsResponse["data"];
+export type Commit = Commits[number];
 
-export const getCommits = async (params: GetCommitsParameters) => {
+const getCommits = async (params: GetCommitsParameters): Promise<Commit[]> => {
   const octokit = new Octokit();
   const res = await octokit.request(GET_COMMITS_URL, params);
 
   return res.data;
+};
+
+export const getAllCommits = async (
+  params: GetCommitsParameters
+): Promise<Commit[]> => {
+  let pageNumber = 1;
+  const allCommits: Commit[] = [];
+  let pageCommits: Commit[];
+  do {
+    pageCommits = await getCommits({ ...params, page: pageNumber });
+    console.log({ pageNumber, n: pageCommits.length });
+    allCommits.push(...pageCommits);
+    pageNumber++;
+  } while (pageCommits.length > 0);
+
+  return allCommits; // OoOoO I forgot a semicolon
 };

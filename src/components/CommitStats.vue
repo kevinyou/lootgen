@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { getCommits, type Commits } from "../services/githubService";
+import { getAllCommits, type Commits } from "../services/githubService";
 import BarChart from "../components/BarChart";
 
 const commits = ref<Commits | null>(null);
 
 const loadCommits = async () => {
   commits.value = null;
-  const res = await getCommits({
+  const res = await getAllCommits({
     owner: "lrdwhyt",
     repo: "coscheduler",
   });
