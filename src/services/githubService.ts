@@ -40,5 +40,5 @@ export const getAllCommits = async (
     pageNumber++;
   } while (pageCommits.length > 0);
 
-  return allCommits // OoOoO I forgot a semicolon
+  return allCommits; // OoOoO I forgot a semicolon
 };
