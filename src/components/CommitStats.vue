@@ -3,13 +3,17 @@ import { computed, onMounted, ref } from "vue";
 import { getAllCommits, type Commits } from "../services/githubService";
 import BarChart from "../components/BarChart";
 
+const props = defineProps<{
+  owner: string;
+  repo: string;
+}>();
 const commits = ref<Commits | null>(null);
 
 const loadCommits = async () => {
   commits.value = null;
   const res = await getAllCommits({
-    owner: "lrdwhyt",
-    repo: "coscheduler",
+    owner: props.owner,
+    repo: props.repo,
   });
   commits.value = res;
 };

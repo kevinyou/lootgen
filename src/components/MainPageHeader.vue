@@ -8,7 +8,8 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      This is the world's premier fansite for the scheduling app coscheduler.
+      This is the world's premier fansite keeping track of the schedule for the
+      scheduling app coscheduler.
     </h3>
   </div>
 </template>
