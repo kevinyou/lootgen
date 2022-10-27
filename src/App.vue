@@ -4,13 +4,19 @@ import { getRepos, type RepoMetadata } from "./services/githubService";
 import MainPageHeader from "./components/MainPageHeader.vue";
 import CommitStats from "./components/CommitStats.vue";
 
+const OWNER = "lrdwhyt";
+const REPO = "coscheduler";
+
+const owner = ref(OWNER);
+const repo = ref(REPO);
+
 const repoMetadata = ref<RepoMetadata | null>(null);
 
 const loadRepoMetadata = async () => {
   repoMetadata.value = null;
   const res = await getRepos({
-    owner: "lrdwhyt",
-    repo: "coscheduler",
+    owner: owner.value,
+    repo: repo.value,
   });
   repoMetadata.value = res;
 };
@@ -37,7 +43,7 @@ onMounted(async () => {
       <p>The owner of coscheduler is {{ repoMetadata.owner.login }}.</p>
     </div>
     <div v-else>Loading...</div>
-    <CommitStats />
+    <CommitStats :owner="owner" :repo="repo" />
   </main>
 </template>
 
