@@ -1,4 +1,4 @@
-# coschedulerscheduler
+# lootgen
 
 ## Recommended IDE Setup
 
