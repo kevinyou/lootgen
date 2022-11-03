@@ -1,4 +1,7 @@
 # lootgen
+Random generator for games
+
+[http://kyouko.me/lootgen/](Try it here)
 
 ## Recommended IDE Setup
 
